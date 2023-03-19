@@ -14,8 +14,8 @@ node *head, *tail;
 void AddLast(char c);               // Penambahan
 void AddFirst(char c);              // Penambahan
 void AddToIndex(int index, char c); // Penambahan
-// void AddAfter(char c);
-// void AddBefore(char c);
+void AddAfter(char checkpt, char insert);
+void AddBefore(char checkpt, char insert);
 
 node FindByIndex(int index);        
 void PrintAll();
@@ -24,11 +24,8 @@ int main(){
     head = tail = NULL;
     PrintAll();
     
-    AddLast('T');
-    AddFirst('Q');
-    AddLast('A');
-    AddFirst('D');
-    AddToIndex(-0, 'M'),
+    AddLast('T'), AddFirst('Q'), AddLast('A'), AddFirst('D'),
+    AddAfter('Q', 'U'), AddBefore('M', 'R'), AddToIndex(0, 'M'),
     PrintAll();
 
     cout << FindByIndex(-1).data << endl;
@@ -95,6 +92,65 @@ void AddToIndex(int index, char c){
         temp2->next = temp1->prev = baru;
         baru->prev = temp2;
         baru->next = temp1;
+    }
+}
+
+void AddAfter(char checkpt, char insert){
+    node *baru;
+    baru = (node *) malloc(sizeof(node));
+    baru->data = insert;
+
+    node *temp1, *temp2;
+    temp1 = head;
+    if(head == NULL) head = tail = baru;
+    else if(temp1 == tail) AddLast(insert);
+    else{
+        do{
+            temp2 = temp1;
+            temp1 = temp1->next;
+            if(temp1 == tail){
+                if(temp1->data == checkpt){
+                    AddLast(insert);
+                    return;
+                }else if(temp2->data != checkpt){
+                    cout << "Data '" << checkpt << "' tidak ada" << endl;
+                    return;
+                }
+                break;
+            }
+        }while(temp2->data != checkpt);
+        temp2->next = baru;
+        temp1->prev = baru;
+        baru->next = temp1;
+        baru->prev = temp2;
+    }
+}
+
+void AddBefore(char checkpt, char insert){
+    node *baru;
+    baru = (node *) malloc(sizeof(node));
+    baru->data = insert;
+
+    node *temp1, *temp2;
+    temp1 = head;
+    if(head == NULL) head = tail = baru;
+    else if(temp1->data == checkpt) AddFirst(insert);
+    else{
+        do{
+            temp2 = temp1;
+            temp1 = temp1->next;
+            if(temp1 == tail){
+                if(temp1->data != checkpt){
+                    cout << "Data '" << checkpt << "' tidak ada" << endl;
+                    return;
+                }
+                break;
+            }
+        }while(temp1->data != checkpt);
+        temp2->next = baru;
+        temp1->prev = baru;
+        baru->next = temp1;
+        baru->prev = temp2;
     }
 }
 
