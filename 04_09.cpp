@@ -18,6 +18,11 @@ void AddAfter(char checkpt, char insert);
 void AddBefore(char checkpt, char insert);
 void DeleteLast();
 void DeleteFirst();
+void DeleteByIndex(int index);
+void DeleteByData();
+void DeleteAfter();
+void DeleteBefore();
+void DeleteAll();
 
 node FindByIndex(int index);        
 void PrintAll();
@@ -26,13 +31,21 @@ void NotFound(char c){
     cout << "Data '" << c << "' tidak ada" << endl;
 }
 
+void free_node(node *n){
+    free(n);
+    n = NULL;
+}
+
 int main(){
     head = tail = NULL;
-    PrintAll();
     
-    AddLast('T'), AddFirst('Q'), AddLast('A'), AddFirst('D'),
+    AddLast('T'), 
+    AddFirst('Q'), AddLast('A'), AddFirst('D'),
     AddAfter('A', 'U'), AddBefore('U', 'R'), AddToIndex(6, 'M'),
-    DeleteLast(), 
+    PrintAll();
+    // DeleteLast(), DeleteFirst(), 
+    DeleteByIndex(4);
+    // DeleteAll(); 
     PrintAll();
 
     cout << FindByIndex(-1).data << endl;
@@ -160,14 +173,85 @@ void DeleteLast(){
     temp = head;
     if(temp == NULL) cout << "List kosong!!" << endl;
     else{
-        while(temp != tail) temp = temp->next;
-        tail = temp->prev;
-        delete temp;
+        if(temp != tail){
+            while(temp != tail) temp = temp->next;
+            tail = temp->prev;
+            free(temp);
+        }else DeleteAll();
     }
 }
 
 void DeleteFirst(){
+    node *temp;
+    temp = head;
+    if(temp == NULL) cout << "List kosong!!" << endl;
+    else{
+        if(temp != tail){
+            head = head->next;
+            free(temp);
+        }else DeleteAll();
+    }
+}
 
+void DeleteByIndex(int index){
+    if(index < 0){
+        cout << "Indeks merupakan bilangan cacah!" << endl;
+        return;
+    }
+    node *temp1, *temp2;
+    temp1 = head;
+    int i = 0;
+    if(temp1 == NULL) cout << "List kosong!!" << endl;
+    else if(index == 0) DeleteFirst();
+    else{
+        while(i != index){
+            i++;
+            temp2 = temp1;
+            temp1 = temp1->next;
+            if(temp1 == tail){
+                if(i == index){
+                    DeleteLast();
+                    return;
+                }
+                break;
+            }
+        }
+        if(index > i){
+            cout << "Indeks DeleteByIndex melebihi supply" << endl;
+            return;
+        }
+        temp2->next = temp1->next;
+        temp1->next->prev = temp2;
+        free(temp1);
+    }
+}
+
+void DeleteByData(){
+
+}
+
+void DeleteAfter(){
+
+}
+
+void DeleteBefore(){
+
+}
+
+
+void DeleteAll(){
+    node *temp1, *temp2;
+    temp1 = head;
+    if(temp1 == NULL) cout << "List kosong!!" << endl;
+    else{
+        while(temp1 != tail){
+            temp2 = temp1;
+            temp1 = temp1->next;
+            free(temp2);
+        }
+    }
+    free(temp1);
+    head = tail = NULL;
 }
 
 node FindByIndex(int index){
@@ -192,11 +276,11 @@ void PrintAll(){
     else{
         cout << "Indeks\tData" << endl;
         int i = 0;
-        do{
+        while(temp != tail->next){
             cout << i << "\t" << temp->data << endl;
             i++;
             temp = temp->next;
-        }while(temp != tail->next);
+        }
     }
     cout << "------------" << endl;
 }
