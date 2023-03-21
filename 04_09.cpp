@@ -2,9 +2,7 @@
 using namespace std;
 
 struct node {
-   //bagian data 
      char data;
-   //pointer ke node selanjutnya
     struct node *next; 
     struct node *prev;
 };
@@ -56,7 +54,6 @@ int main(){
 
     // cout << endl << FindNodeByIndex(7)->data << endl;
     
-
     return EXIT_SUCCESS;
 }
 
