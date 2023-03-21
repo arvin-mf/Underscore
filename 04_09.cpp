@@ -25,10 +25,11 @@ void DeleteBefore(char checkpt);    // Penghapusan
 void DeleteAll();                   // Penghapusan
 void FindDataByIndex(int index);    // Pencarian
 void FindIndexByData(char cari);    // Pencarian
-node * FindNodeByIndex(int index);    // Pencarian        
-
-
-void PrintAll();
+node * FindNodeByIndex(int index);  // Pencarian        
+void PrintAll();                    // Pengaksesan
+void ReversePrintAll();             // Pengaksesan
+void PrintFromIndex(int index);     // Pengaksesan
+void PrintFromData(char mulai);     // Pengaksesan
 
 void NotFound(char c){
     cout << "Data '" << c << "' tidak ada" << endl;
@@ -45,10 +46,13 @@ int main(){
     // DeleteByIndex(4), DeleteByData('U'),
     // DeleteAfter('M'), DeleteBefore('B'),
     // DeleteAll(), 
-    FindDataByIndex(3),
-    FindIndexByData('R');
+    // FindDataByIndex(3),
+    // FindIndexByData('R');
 
     // PrintAll();
+    // ReversePrintAll();
+    // PrintFromIndex(7);
+    // PrintFromData('Q');
 
     // cout << endl << FindNodeByIndex(7)->data << endl;
     
@@ -320,6 +324,10 @@ void FindDataByIndex(int index){
     }
     node *temp;
     temp = head;
+    if(temp == NULL){
+        cout << "List kosong!!" << endl;
+        return;
+    }
     int i = 0;
     while(i != index){
         if(temp == tail) break;
@@ -334,6 +342,10 @@ void FindIndexByData(char cari){
     cout << endl;
     node *temp;
     temp = head;
+    if(temp == NULL){
+        cout << "List kosong!!" << endl;
+        return;
+    }
     int i = 0;
     while(temp->data != cari){
         if(temp == tail) break;
@@ -375,6 +387,73 @@ void PrintAll(){
             i++;
             temp = temp->next;
         }
+    }
+    cout << "------------" << endl;
+}
+
+void ReversePrintAll(){
+    node *temp;
+    temp = head;
+    cout << endl;
+    if(temp == NULL) cout << "List kosong!!" << endl;
+    else{
+        int i = 0;
+        while(temp != tail){
+            i++;
+            temp = temp->next;
+        }
+        cout << "Indeks\tData" << endl;
+        for(int index = i; index >= 0; index--){
+            cout << index << "\t" << temp->data << endl;
+            temp = temp->prev;
+        }
+    }
+    cout << "------------" << endl;
+}   
+
+void PrintFromIndex(int index){
+    if(index < 0){
+        cout << "Indeks merupakan bilangan cacah!" << endl;
+        return;
+    }
+    node *temp;
+    temp = head;
+    int i = 0;
+    cout << endl;
+    if(temp == NULL) cout << "List kosong!!" << endl;
+    else{
+        cout << "Indeks\tData" << endl;
+        while(temp != tail){
+            if(i >= index) cout << i << "\t" << temp->data << endl;
+            temp = temp->next;
+            i++;
+        }
+        if(index > i) cout << "-\t-\nIndeks PrintFromIndex melebihi supply" << endl;
+        else cout << i << "\t" << temp->data << endl;
+    }
+    cout << "------------" << endl;
+}
+
+void PrintFromData(char mulai){
+    node *temp;
+    temp = head;
+    bool cek = false;
+    int i = 0;
+    cout << endl;
+    if(temp == NULL) cout << "List kosong!!" << endl;
+    else{
+        cout << "Indeks\tData" << endl;
+        while(temp != tail){
+            if(temp->data == mulai) cek = !cek;
+            if(cek) cout << i << "\t" << temp->data << endl;
+            temp = temp->next;
+            i++;
+        }
+        if(!cek && temp->data != mulai){
+            cout << "-\t-" << endl;
+            NotFound(mulai);
+        }
+        else cout << i << "\t" << temp->data << endl;
     }
     cout << "------------" << endl;
 }
