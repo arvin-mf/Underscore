@@ -19,8 +19,8 @@ void AddBefore(char checkpt, char insert);
 void DeleteLast();
 void DeleteFirst();
 void DeleteByIndex(int index);
-void DeleteByData();
-void DeleteAfter();
+void DeleteByData(char trash);
+void DeleteAfter(char checkpt);
 void DeleteBefore();
 void DeleteAll();
 
@@ -31,11 +31,6 @@ void NotFound(char c){
     cout << "Data '" << c << "' tidak ada" << endl;
 }
 
-void free_node(node *n){
-    free(n);
-    n = NULL;
-}
-
 int main(){
     head = tail = NULL;
     
@@ -44,7 +39,9 @@ int main(){
     AddAfter('A', 'U'), AddBefore('U', 'R'), AddToIndex(6, 'M'),
     PrintAll();
     // DeleteLast(), DeleteFirst(), 
-    DeleteByIndex(4);
+    // DeleteByIndex(4),
+    // DeleteByData('U'),
+    DeleteAfter('M'),
     // DeleteAll(); 
     PrintAll();
 
@@ -226,16 +223,63 @@ void DeleteByIndex(int index){
     }
 }
 
-void DeleteByData(){
-
+void DeleteByData(char trash){
+    node *temp1, *temp2;
+    temp1 = head;
+    if(temp1 == NULL) cout << "List kosong!!" << endl;
+    else if(temp1->data == trash) DeleteFirst();
+    else{
+        while(temp1->data != trash){
+            if(temp1 == tail) break;
+            temp2 = temp1;
+            temp1 = temp1->next;
+        }
+        if(temp1 == tail){
+            if(temp1->data != trash){
+                NotFound(trash);
+                return;
+            }else{
+                DeleteLast();
+                return;
+            }
+        }
+        temp2->next = temp1->next;
+        temp1->next->prev = temp2;
+        free(temp1);
+    }
 }
 
-void DeleteAfter(){
-
+void DeleteAfter(char checkpt){
+    node *temp1, *temp2;
+    temp1 = head;
+    if(temp1 == NULL) cout << "List kosong!!" << endl;
+    else{
+        do{
+            if(temp1 == tail) break;
+            temp2 = temp1;
+            temp1 = temp1->next;
+        }while(temp2->data != checkpt);
+        if(temp1 == tail){
+            if(temp2->data == checkpt) DeleteLast();
+            else{
+                if(temp1->data != checkpt) NotFound(checkpt);
+                else cout << "Data '" << checkpt << "' ada pada tail" << endl;
+            }
+        }else{
+            temp2->next = temp1->next;
+            temp1->next->prev = temp2;
+            free(temp1);
+        }
+    }
 }
 
 void DeleteBefore(){
-
+    node *temp1, *temp2;
+    temp1 = head;
+    if(temp1 == NULL) cout << "List kosong!!" << endl;
+    else{
+        
+    }
 }
 
 
