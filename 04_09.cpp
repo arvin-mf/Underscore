@@ -14,17 +14,20 @@ node *head, *tail;
 void AddLast(char c);               // Penambahan
 void AddFirst(char c);              // Penambahan
 void AddToIndex(int index, char c); // Penambahan
-void AddAfter(char checkpt, char insert);
-void AddBefore(char checkpt, char insert);
-void DeleteLast();
-void DeleteFirst();
-void DeleteByIndex(int index);
-void DeleteByData(char trash);
-void DeleteAfter(char checkpt);
-void DeleteBefore();
-void DeleteAll();
+void AddAfter(char checkpt, char insert);   //Penyisipan
+void AddBefore(char checkpt, char insert);  //Penyisipan
+void DeleteLast();                  // Penghapusan
+void DeleteFirst();                 // Penghapusan
+void DeleteByIndex(int index);      // Penghapusan
+void DeleteByData(char trash);      // Penghapusan
+void DeleteAfter(char checkpt);     // Penghapusan
+void DeleteBefore(char checkpt);    // Penghapusan
+void DeleteAll();                   // Penghapusan
+void FindDataByIndex(int index);
+void FindIndexByData(char data);
+node FindNodeByIndex(int index);        
 
-node FindByIndex(int index);        
+
 void PrintAll();
 
 void NotFound(char c){
@@ -41,7 +44,8 @@ int main(){
     // DeleteLast(), DeleteFirst(), 
     // DeleteByIndex(4),
     // DeleteByData('U'),
-    DeleteAfter('M'),
+    // DeleteAfter('M'),
+    DeleteBefore('B'),
     // DeleteAll(); 
     PrintAll();
 
@@ -235,17 +239,13 @@ void DeleteByData(char trash){
             temp1 = temp1->next;
         }
         if(temp1 == tail){
-            if(temp1->data != trash){
-                NotFound(trash);
-                return;
-            }else{
-                DeleteLast();
-                return;
-            }
+            if(temp1->data != trash) NotFound(trash);
+            else DeleteLast();
+        }else{
+            temp2->next = temp1->next;
+            temp1->next->prev = temp2;
+            free(temp1);
         }
-        temp2->next = temp1->next;
-        temp1->next->prev = temp2;
-        free(temp1);
     }
 }
 
@@ -273,15 +273,28 @@ void DeleteAfter(char checkpt){
     }
 }
 
-void DeleteBefore(){
+void DeleteBefore(char checkpt){
     node *temp1, *temp2;
     temp1 = head;
     if(temp1 == NULL) cout << "List kosong!!" << endl;
+    else if(temp1->data == checkpt) cout << "Data '" << checkpt << "' ada pada head" << endl;
     else{
-        
+        while(temp1->data != checkpt){
+            if(temp1 == tail){
+                NotFound(checkpt);
+                return;
+            }
+            temp2 = temp1;
+            temp1 = temp1->next;
+        }
+        if(temp2 == head) DeleteFirst();
+        else{
+            temp1->prev = temp2->prev;
+            temp2->prev->next = temp1;
+            free(temp2);
+        }
     }
 }
-
 
 void DeleteAll(){
     node *temp1, *temp2;
@@ -297,6 +310,15 @@ void DeleteAll(){
     free(temp1);
     head = tail = NULL;
 }
+
+void FindDataByIndex(int index){
+
+}
+
+void FindIndexByData(char data){
+
+}
+
 
 node FindByIndex(int index){
     if(index < 0) return node{.data = '?'};
