@@ -23,9 +23,9 @@ void DeleteByData(char trash);      // Penghapusan
 void DeleteAfter(char checkpt);     // Penghapusan
 void DeleteBefore(char checkpt);    // Penghapusan
 void DeleteAll();                   // Penghapusan
-void FindDataByIndex(int index);
-void FindIndexByData(char data);
-node FindNodeByIndex(int index);        
+void FindDataByIndex(int index);    // Pencarian
+void FindIndexByData(char cari);    // Pencarian
+node * FindNodeByIndex(int index);    // Pencarian        
 
 
 void PrintAll();
@@ -42,14 +42,15 @@ int main(){
     AddAfter('A', 'U'), AddBefore('U', 'R'), AddToIndex(6, 'M'),
     PrintAll();
     // DeleteLast(), DeleteFirst(), 
-    // DeleteByIndex(4),
-    // DeleteByData('U'),
-    // DeleteAfter('M'),
-    DeleteBefore('B'),
-    // DeleteAll(); 
-    PrintAll();
+    // DeleteByIndex(4), DeleteByData('U'),
+    // DeleteAfter('M'), DeleteBefore('B'),
+    // DeleteAll(), 
+    FindDataByIndex(3),
+    FindIndexByData('R');
 
-    cout << FindByIndex(-1).data << endl;
+    // PrintAll();
+
+    // cout << endl << FindNodeByIndex(7)->data << endl;
     
 
     return EXIT_SUCCESS;
@@ -312,16 +313,43 @@ void DeleteAll(){
 }
 
 void FindDataByIndex(int index){
-
+    cout << endl;
+    if(index < 0){
+        cout << "Indeks merupakan bilangan cacah!" << endl;
+        return;
+    }
+    node *temp;
+    temp = head;
+    int i = 0;
+    while(i != index){
+        if(temp == tail) break;
+        i++;
+        temp = temp->next;
+    }
+    if(index > i) cout << "Indeks FindData melebihi supply" << endl;
+    else cout << "Data pada indeks ke-" << index << " : " << temp->data << endl;
 }
 
-void FindIndexByData(char data){
-
+void FindIndexByData(char cari){
+    cout << endl;
+    node *temp;
+    temp = head;
+    int i = 0;
+    while(temp->data != cari){
+        if(temp == tail) break;
+        i++;
+        temp = temp->next;
+    }
+    if(temp == tail && temp->data != cari) NotFound(cari);
+    else cout << "Data '" << cari << "' berada pada indeks ke-" << i << endl;
 }
 
+node * FindNodeByIndex(int index){
+    node *helper;
+    helper = (node *) malloc(sizeof(node));
+    helper->data = '?';
 
-node FindByIndex(int index){
-    if(index < 0) return node{.data = '?'};
+    if(index < 0) return helper;
     struct node *temp;
     temp = head;
     int i = 0;
@@ -330,8 +358,8 @@ node FindByIndex(int index){
         temp = temp->next;
         if(temp == tail) break;
     }
-    if(index > i) return node{.data = '?'};
-    return *temp;
+    if(index > i) return helper;
+    return temp;
 }
 
 void PrintAll(){
