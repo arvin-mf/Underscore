@@ -85,7 +85,7 @@ struct CircularDoubleLL{
         int i = -1;
         nodeCDLL *cetak;
         cetak = head;
-        if(head == NULL) cout << "Queue kosong!!" << endl;
+        if(head == NULL) cout << "List kosong!!" << endl;
         else{
             while(i < jumlah){
                 cout << cetak->data << ((i == jumlah - 1) ? "" : " -> ");

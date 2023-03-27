@@ -8,12 +8,10 @@ struct nodeCSLL {
 
 struct CircularSingleLL{
     nodeCSLL *head, *tail;
-    int jumlah;
 
     CircularSingleLL(){
         head = NULL;
         tail = NULL;
-        jumlah = -1;
     }
 
     void AddFirst(int data){
@@ -22,12 +20,10 @@ struct CircularSingleLL{
         if(head == NULL){
             head = tail = baru;
             baru->next = baru;
-            jumlah = 0;
         }else{
             baru->next = head;
             tail->next = baru;
             head = baru;
-            jumlah++;
         }
     }
 
@@ -37,32 +33,28 @@ struct CircularSingleLL{
         if(head == NULL){
             head = tail = baru;
             baru->next = baru;
-            jumlah = 0;
         }else{
             baru->next = head;
             tail->next = baru;
             tail = baru;
-            jumlah++;
         }
     }
 
     void DeleteData(int data){
         bool ketemu = false;
-        int i = 0;
         nodeCSLL *hapus, *sebelumnya;
         hapus = head;
         if(hapus == tail){
-            delete hapus;
-            head = tail = NULL;
-            return;
-        }
-        while(!ketemu && (i <= jumlah)){
+                delete hapus;
+                head = tail = NULL;
+                return;
+            }
+        while(!ketemu){
             if(hapus->data == data) ketemu = true;
             else{
                 sebelumnya = hapus;
                 hapus = hapus->next;
             }
-            i++;
         }
         if(ketemu){
             if(hapus == head){
@@ -74,7 +66,6 @@ struct CircularSingleLL{
                 sebelumnya->next = hapus->next;
                 delete hapus;
             }
-            jumlah--;
         }else cout << "Data '" << data << "' tidak ada" << endl;
     }
 
@@ -91,7 +82,6 @@ struct CircularSingleLL{
             head = head->next;
             tail->next = head;
             delete bantu;
-            jumlah--;
         }
     }
 
@@ -109,23 +99,20 @@ struct CircularSingleLL{
             delete tail;
             tail = bantu;
             tail->next = head;
-            jumlah--;
         }
     }
 
     void Print(string komentar){
         cout << komentar << endl;
-        int i = -1;
         nodeCSLL *cetak;
         cetak = head;
         if(cetak == NULL) cout << "List kosong!!" << endl;
         else{
-            while(i < jumlah){
-                cout << cetak->data << ((i == jumlah - 1) ? "" : " -> ");
+            while(cetak != tail){
+                cout << cetak->data << " -> ";
                 cetak = cetak->next;
-                i++;
             }
-            cout << endl;
+            cout << cetak->data << endl;
         }
     }
 };
@@ -134,9 +121,13 @@ int main(){
     CircularSingleLL *csll = new CircularSingleLL();
     
     csll->AddLast(20);
-    // csll->AddLast(270);
-    // csll->AddFirst(48);
+    csll->AddLast(270);
+    csll->AddFirst(48);
     csll->Print("cek cek");
+    csll->DeleteData(48);
+    csll->Print("cek setelah delete delete");
+    csll->DeleteData(270);
+    csll->Print("cek setelah delete delete");
     csll->DeleteData(20);
     csll->Print("cek setelah delete delete");
 
