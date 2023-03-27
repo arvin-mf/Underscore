@@ -21,6 +21,7 @@ struct CircularSingleLL{
         baru->data = data;
         if(head == NULL){
             head = tail = baru;
+            baru->next = baru;
             jumlah = 0;
         }else{
             baru->next = head;
@@ -35,6 +36,7 @@ struct CircularSingleLL{
         baru->data = data;
         if(head == NULL){
             head = tail = baru;
+            baru->next = baru;
             jumlah = 0;
         }else{
             baru->next = head;
@@ -76,6 +78,11 @@ struct CircularSingleLL{
         else{
             nodeCSLL *bantu;
             bantu = head;
+            if(bantu == tail){
+                delete bantu;
+                head = tail = NULL;
+                return;
+            }
             head = head->next;
             tail->next = head;
             delete bantu;
@@ -88,6 +95,11 @@ struct CircularSingleLL{
         else{
             nodeCSLL *bantu;
             bantu = head;
+            if(bantu == tail){
+                delete bantu;
+                head = tail = NULL;
+                return;
+            }
             while(bantu->next != tail) bantu = bantu->next;
             delete tail;
             tail = bantu;
@@ -114,10 +126,10 @@ int main(){
     CircularSingleLL *csll = new CircularSingleLL();
     
     csll->AddLast(20);
-    csll->AddLast(270);
-    csll->AddFirst(48);
+    // csll->AddLast(270);
+    // csll->AddFirst(48);
     csll->Print("cek cek");
-    csll->DeleteData(270);
+    csll->DeleteData(20);
     csll->Print("cek setelah delete delete");
 
 
