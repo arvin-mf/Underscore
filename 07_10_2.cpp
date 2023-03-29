@@ -34,16 +34,25 @@ void push(char item){
     count++;
 }
 
+void RemoveLast(){
+    node *hapus, *t = NULL;
+    hapus = first_in;
+    while(hapus->next != NULL){
+        t = hapus;
+        hapus = hapus->next;
+    }
+    item = hapus->data;
+    delete hapus;
+    if(t != NULL) t->next = NULL;
+    else first_in = NULL;
+}
+
 void pop(){
     if(first_in==NULL) cout << "\n## Stack kosong";
     else{
-        --count; 
-        char item = first_in->data; 
-        node *temp = new node;
-        temp = first_in->next;
-        first_in = temp;
+        RemoveLast();
         cout << "\n##POP hasil:" << item;
-        cout << "\n##jumlah item dalam stack : " << count ;
+        cout << "\n##jumlah item dalam stack : " << --count ;
     }
 }
 
