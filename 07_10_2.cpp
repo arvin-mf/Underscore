@@ -14,8 +14,8 @@ char item;
 int count = 0;
 int keluar = 0;
 
-void AddLast(node *n, char item){
-    n = new node;
+void AddLast(char item){
+    node *n = new node;
     n->data = item;
     n->next = NULL;
     if(first_in == NULL) first_in = n;
@@ -28,9 +28,8 @@ void AddLast(node *n, char item){
 }
 
 void push(char item){
-    node *temp;
-    AddLast(temp, item);
-    cout << "\n# PUSH : No urut/index : " << count << ", Push :" << item;
+    AddLast(item);
+    cout << "\n# PUSH : Index : " << count << ", Push : " << item << endl;
     count++;
 }
 
@@ -52,7 +51,7 @@ void pop(){
     else{
         RemoveLast();
         cout << "\n##POP hasil:" << item;
-        cout << "\n##jumlah item dalam stack : " << --count ;
+        cout << "\n##jumlah item dalam stack : " << --count << endl;
     }
 }
 
@@ -64,10 +63,11 @@ void printAll(){
     else{
         int i = 0;
         do{
-            cout << "\n## No Urut/index : " << i << ", Value :" << temp->data;
+            cout << "\n## No Urut/index : " << i << ", Value : " << temp->data;
             temp = temp->next;
             i++;
         }while(temp != NULL);
+        cout << endl;
     }
     
 }
@@ -77,7 +77,7 @@ void menu(){
     cin >> choice;
     switch(choice){
         case 1:
-            cout << "\nMasukkan huruf yang akan dipush : ";
+            cout << "Masukkan huruf yang akan dipush : ";
             cin >> item;
             push(item);
             break;
