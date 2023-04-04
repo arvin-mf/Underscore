@@ -10,7 +10,7 @@ struct node{
 
 node *paling_bawah[MAX];
 string lemari[MAX];
-int banyak_lemari;
+int banyak_lemari = 0;
 int indeks;
 string inputString;
 
@@ -18,7 +18,7 @@ string DeteksiString(string s);
 
 void Push();
 void Pop();
-void Display(int p);
+void Display();
 
 
 int main(){
@@ -36,8 +36,6 @@ int main(){
         cin >> lemari[i];
     }
 
-    // for(int i = 0; i < banyak_lemari; i++) cout << i + 1 << ". " << lemari[i] << endl;
-
     do{
         cout << "\n1: Tambah\n2: Ambil\n3: Lihat\n4: Keluar\n";
         cout << "Pilihan Anda : ";
@@ -47,9 +45,7 @@ int main(){
         case 2:
 
             break;
-        case 3:
-
-            break;
+        case 3: Display(); break;
         case 4:
             cout << "Keluar, menutup program" << endl;
             break;
@@ -98,6 +94,27 @@ void Pop(){
 
 }
 
-void Display(int p){
+void Display(){
+    if(banyak_lemari != 0){
+        int i, pilih;
+        cout << "Pilih lemari untuk ditampilkan" << endl;
+        for(i = 0; i < banyak_lemari; i++){
+            cout << i + 1 << ": " << lemari[i] << endl;
+        }
+        // cout << i + 1 << ": Semua lemari" << endl;
+        cout << "Pilihan : ";
+        cin >> pilih;
 
+        node *temp;
+        temp = paling_bawah[pilih - 1];
+        if(temp == NULL) cout << "Lemari " << lemari[pilih - 1] << " kosong" << endl;
+        else{
+            cout << "Lemari " << lemari[pilih - 1] << endl;
+            while(temp != NULL){
+                cout << "> " << temp->nama << endl;
+                temp = temp->next;
+            }
+        }
+        cout << "Baiklah" << endl;
+    }
 }
