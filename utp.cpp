@@ -11,7 +11,6 @@ struct node{
 node *paling_bawah[MAX];
 string lemari[MAX];
 int indeks, banyak_lemari = 0;
-string inputString;
 
 string DeteksiString(string s);
 
@@ -71,20 +70,30 @@ string DeteksiString(string s){
 }
 
 void Push(){
+    string input;
     cout << "Masukkan nama pakaian : ";
     cin.ignore(); //karena sebelumnya kita sempat melakukan 'cin >>'
-    getline(cin, inputString);
+    getline(cin, input);
 
     node *baru = new node;
-    baru->nama = DeteksiString(inputString);
+    baru->nama = DeteksiString(input);
     baru->next = NULL;
 
     node *temp;
     temp = paling_bawah[indeks];
     if(temp == NULL) paling_bawah[indeks] = baru;    
     else{
-        while(temp->next != NULL) temp = temp->next;
-        temp->next = baru;
+        bool cek = false;
+        if(temp->nama == baru->nama) cek = true;
+        while(temp->next != NULL){
+            temp = temp->next;
+            if(temp->nama == baru->nama) cek = true;
+        }
+        if(!cek) temp->next = baru;
+        else{
+            delete baru;
+            cout << "Nama pakaian sudah ada sebelumnya ;)" << endl;
+        }
     }
 }
 
@@ -102,6 +111,7 @@ void Pop(){
         temp = paling_bawah[pilih - 1];
         if(temp == NULL) cout << "Lemari " << lemari[pilih - 1] << " kosong" << endl;
         else if(temp->next == NULL){
+            cout << lemari[pilih - 1] << " " << temp->nama << " diambil" << endl;
             delete temp;
             paling_bawah[pilih - 1] = NULL;
         }else{
@@ -109,6 +119,7 @@ void Pop(){
                 tahan = temp;
                 temp = temp->next;
             }
+            cout << lemari[pilih - 1] << " " << temp->nama << " diambil" << endl;
             delete temp;
             tahan->next = NULL;
             if(tahan == paling_bawah[pilih - 1]) paling_bawah[pilih - 1] = tahan;
@@ -119,7 +130,7 @@ void Pop(){
 
 void Display(){
     if(banyak_lemari != 0){
-        int i, pilih, q = 0;
+        int i, pilih;
         cout << "Pilih lemari untuk ditampilkan" << endl;
         for(i = 0; i < banyak_lemari; i++)
             cout << i + 1 << ": " << lemari[i] << endl;
@@ -135,6 +146,7 @@ void Display(){
                 cout << endl;
                 if(temp == NULL) cout << "Lemari " << lemari[k] << " kosong" << endl;
                 else{
+                    int q = 0;
                     cout << "Lemari " << lemari[k] << endl;
                     while(temp != NULL){
                         cout << "-> " << temp->nama << endl;
@@ -149,6 +161,7 @@ void Display(){
             temp = paling_bawah[pilih - 1];
             if(temp == NULL) cout << "Lemari " << lemari[pilih - 1] << " kosong" << endl;
             else{
+                int q = 0;
                 cout << "Lemari " << lemari[pilih - 1] << endl;
                 while(temp != NULL){
                     cout << "-> " << temp->nama << endl;
