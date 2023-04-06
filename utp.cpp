@@ -95,7 +95,6 @@ void Pop(){
         cout << "Pilih lemari untuk mengambil" << endl;
         for(i = 0; i < banyak_lemari; i++)
             cout << i + 1 << ": " << lemari[i] << endl;
-        // cout << i + 1 << ": Semua lemari" << endl;
         cout << "Pilihan : ";
         cin >> pilih;
 
@@ -124,22 +123,41 @@ void Display(){
         cout << "Pilih lemari untuk ditampilkan" << endl;
         for(i = 0; i < banyak_lemari; i++)
             cout << i + 1 << ": " << lemari[i] << endl;
-        // cout << i + 1 << ": Semua lemari" << endl;
+        cout << i + 1 << ": Semua lemari" << endl;
         cout << "Pilihan : ";
         cin >> pilih;
+        cout << "v v v v v v v v v" << endl;
 
-        node *temp;
-        temp = paling_bawah[pilih - 1];
-        if(temp == NULL) cout << "Lemari " << lemari[pilih - 1] << " kosong" << endl;
-        else{
-            cout << "Lemari " << lemari[pilih - 1] << endl;
-            while(temp != NULL){
-                cout << "-> " << temp->nama << endl;
-                q++;
-                temp = temp->next;
+        if(pilih == i + 1){
+            for(int k = 0; k < banyak_lemari; k++){
+                node *temp;
+                temp = paling_bawah[k];
+                cout << endl;
+                if(temp == NULL) cout << "Lemari " << lemari[k] << " kosong" << endl;
+                else{
+                    cout << "Lemari " << lemari[k] << endl;
+                    while(temp != NULL){
+                        cout << "-> " << temp->nama << endl;
+                        q++;
+                        temp = temp->next;
+                    }
+                    cout << "Total pakaian = " << q << endl;
+                }
             }
-            cout << "Total pakaian = " << q << endl;
+        }else{
+            node *temp;
+            temp = paling_bawah[pilih - 1];
+            if(temp == NULL) cout << "Lemari " << lemari[pilih - 1] << " kosong" << endl;
+            else{
+                cout << "Lemari " << lemari[pilih - 1] << endl;
+                while(temp != NULL){
+                    cout << "-> " << temp->nama << endl;
+                    q++;
+                    temp = temp->next;
+                }
+                cout << "Total pakaian = " << q << endl;
+            }
         }
-        cout << "Baiklah" << endl;
+        cout << endl << "Baiklah" << endl;
     }
 }
