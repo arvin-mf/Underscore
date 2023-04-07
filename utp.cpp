@@ -6,6 +6,7 @@ using namespace std;
 struct node{
     string nama;
     node *next;
+    node *prev;
 };
 
 node *paling_bawah[MAX];
@@ -78,6 +79,7 @@ void Push(){
     node *baru = new node;
     baru->nama = DeteksiString(input);
     baru->next = NULL;
+    baru->prev = NULL;
 
     node *temp;
     temp = paling_bawah[indeks];
@@ -89,8 +91,10 @@ void Push(){
             temp = temp->next;
             if(temp->nama == baru->nama) cek = true;
         }
-        if(!cek) temp->next = baru;
-        else{
+        if(!cek){
+            temp->next = baru;
+            baru->prev = temp;
+        }else{
             delete baru;
             cout << "Nama pakaian sudah ada sebelumnya ;)" << endl;
         }
@@ -146,13 +150,16 @@ void Display(){
                 cout << endl;
                 if(temp == NULL) cout << "Lemari " << lemari[k] << " kosong" << endl;
                 else{
-                    int q = 0;
+                    int q = 1;
                     cout << "Lemari " << lemari[k] << endl;
-                    while(temp != NULL){
-                        cout << "-> " << temp->nama << endl;
-                        q++;
-                        temp = temp->next;
-                    }
+                while(temp->next != NULL){
+                    q++;
+                    temp = temp->next;
+                }
+                while(temp != NULL){
+                    cout << "~ " << temp->nama << (temp->prev == NULL ? " <>" : "") << endl;
+                    temp = temp->prev;
+                }
                     cout << "Total pakaian = " << q << endl;
                 }
             }
@@ -161,12 +168,15 @@ void Display(){
             temp = paling_bawah[pilih - 1];
             if(temp == NULL) cout << "Lemari " << lemari[pilih - 1] << " kosong" << endl;
             else{
-                int q = 0;
+                int q = 1;
                 cout << "Lemari " << lemari[pilih - 1] << endl;
-                while(temp != NULL){
-                    cout << "-> " << temp->nama << endl;
+                while(temp->next != NULL){
                     q++;
                     temp = temp->next;
+                }
+                while(temp != NULL){
+                    cout << "~ " << temp->nama << (temp->prev == NULL ? " <>" : "") << endl;
+                    temp = temp->prev;
                 }
                 cout << "Total pakaian = " << q << endl;
             }
