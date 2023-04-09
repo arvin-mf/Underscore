@@ -54,19 +54,19 @@ int main(){
     return 0;
 }
 
+
 string DeteksiString(string s){
     int cekpoin = 0;
     string jenis, nama;
+
     for(int i = 0; i < s.length(); i++){
         if(cekpoin > 0) nama += s[i];
         if(s[i] == ' ') cekpoin++;
-        if(cekpoin == 0){
-            jenis += s[i];
-            for(int j = 0; j < banyak_lemari; j++){
-                if(jenis == lemari[j]) indeks = j;
-            }
-        }
+        if(cekpoin == 0) jenis += s[i];
     }
+    for(int i = 0; i < banyak_lemari; i++)
+        if(jenis == lemari[i]) indeks = i;
+
     return nama;
 }
 
