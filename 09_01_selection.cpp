@@ -29,12 +29,13 @@ int main(){
 	cout << "DATA SEBELUM TERURUT" << endl;
 	for(i = 0; i < MAX; i++){
 		Data[i] = rand()/1000 + 1;
-		cout << "Data ke " << i << "\t: " << Data[i] << endl;
+		cout << "Data ke-" << i << "\t: " << Data[i] << endl;
 	}
 
 	SelectionSort();
 
-	cout << "\nDATA SETELAH TERURUT" << endl;
+	cout << endl;
+	cout << "DATA SETELAH TERURUT" << endl;
 	for(i = 0; i < MAX; i++)
-	    cout << "Data ke " << i << "\t: " << Data[i] << endl;
+	    cout << "Data ke-" << i << "\t: " << Data[i] << endl;
 }
